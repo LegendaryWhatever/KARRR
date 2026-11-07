@@ -83,6 +83,7 @@ h1{font:400 clamp(30px,4.6vw,64px)/1.18 var(--bit);letter-spacing:-.02em;margin:
 .phone{font:600 clamp(32px,3.6vw,50px)/1.1 var(--pixel);letter-spacing:.02em;text-decoration:none;display:inline-flex;align-items:center;gap:14px;align-self:flex-start}
 .phone span{font:500 19px var(--pixel);color:var(--mute)}
 .phone{white-space:nowrap}
+.age-line{font:500 24px var(--pixel);color:var(--mute);margin-top:-14px}
 .phone:hover{text-decoration:underline;text-underline-offset:6px}
 .namewin .pane{padding:24px 28px 28px}
 .role{font:600 23px var(--pixel);letter-spacing:.04em;margin:0 0 12px;text-transform:uppercase}
@@ -107,6 +108,8 @@ section.block{padding:56px 0}
 .about p{margin:0 0 14px;font-size:16px;line-height:1.65}
 .facts{display:grid;gap:14px}
 .stack{display:grid;gap:22px;align-content:start}
+.cert img{display:block;width:100%;height:auto;border-radius:6px;transition:transform .2s}
+.cert:hover img{transform:scale(1.015)}
 .fact{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
 .fact canvas{height:64px}
 .fact b{display:block;font:600 28px/1.2 var(--pixel)}
@@ -198,6 +201,7 @@ footer{position:relative;z-index:1;text-align:center;font:500 12px var(--mono);c
       <h1 class="sr">Царукян Карен</h1>
       <div class="asciiname"><canvas class="ascii" data-shape="text" data-text="ЦАРУКЯН КАРЕН" data-size="6" aria-hidden="true"></canvas></div>
       <a class="phone" href="tel:+79933131666">+7 (993) 31-31-666</a>
+      <div class="age-line"><span class="age-js">22 года</span> · Москва</div>
       <div class="win namewin">
         <div class="bar"><span class="box"></span><span class="t">karen.txt</span></div>
         <div class="pane">
@@ -233,7 +237,7 @@ footer{position:relative;z-index:1;text-align:center;font:500 12px var(--mono);c
             <li>Организатор с творческим подходом: вижу картину шире и умею договариваться.</li>
             <li>Работаю без конфликтов, в команде — душа компании.</li>
           </ul>
-          <p style="margin:0;color:var(--mute);font:500 13px var(--mono)">Москва · готов к переезду · права B, B1, M</p>
+          <p style="margin:0;color:var(--mute);font:500 13px var(--mono)"><span id="age">22 года</span> · Москва · готов к переезду · права B, B1, M</p>
         </div>
       </div>
       <div class="stack">
@@ -241,6 +245,7 @@ footer{position:relative;z-index:1;text-align:center;font:500 12px var(--mono);c
           <div class="bar"><span class="box"></span><span class="t">education.txt</span></div>
           <div class="pane facts">
             <div class="fact"><canvas class="ascii" data-shape="cap" data-size="7" aria-hidden="true"></canvas><div><b>Кубанский государственный университет</b><span>Экономический факультет · «Системный анализ и управление» · очно · выпуск 2026</span></div></div>
+            <div class="fact"><canvas class="ascii" data-shape="doc" data-size="7" aria-hidden="true"></canvas><div><b>Сертификат: Интерактивный тренажёр по SQL</b><span>Stepik × ДВФУ, с отличием, 25.11.2024 · <a href="https://stepik.org/cert/2664105" target="_blank" rel="noopener">проверить</a></span></div></div>
           </div>
         </div>
         <div class="win">
@@ -250,6 +255,10 @@ footer{position:relative;z-index:1;text-align:center;font:500 12px var(--mono);c
             <div class="fact"><canvas class="ascii" data-shape="doc" data-size="7" aria-hidden="true"></canvas><div><b>Автор научных статей</b><span>Публикация в журнале ВАК и ещё 3+ в РИНЦ — о нематериальных активах и креативной экономике России, цифровой трансформации в ЕАЭС, моделях кадровой политики, платформах для бизнес-аналитики и не только</span></div></div>
             <div class="fact"><canvas class="ascii" data-shape="globe" data-size="7" aria-hidden="true"></canvas><div><b>Говорю на 4 языках</b><span>Армянский — родной, русский — свободно, английский — B1, испанский — A2</span></div></div>
           </div>
+        </div>
+        <div class="win">
+          <div class="bar"><span class="box"></span><span class="t">sql_certificate.jpg</span></div>
+          <div class="pane"><a class="cert" href="https://stepik.org/cert/2664105" target="_blank" rel="noopener"><img src="sql-certificate.jpg" alt="Сертификат Stepik и ДВФУ «Интерактивный тренажёр по SQL», Карен Царукян, с отличием, 25.11.2024" width="1287" height="910" loading="lazy"></a></div>
         </div>
       </div>
     </div>
@@ -308,7 +317,7 @@ footer{position:relative;z-index:1;text-align:center;font:500 12px var(--mono);c
     <div class="win">
       <div class="bar"><span class="box"></span><span class="t">skills.cfg</span></div>
       <div class="skills">
-        <div class="skill"><canvas class="ascii" data-shape="db" data-size="7" aria-hidden="true"></canvas><h3>Данные</h3><p>SQL, Python (Pandas, NumPy, Scikit-learn), Excel, DBeaver, Loginom</p></div>
+        <div class="skill"><canvas class="ascii" data-shape="db" data-size="7" aria-hidden="true"></canvas><h3>Данные</h3><p>SQL, Python (Pandas, NumPy, Scikit-learn), Excel и VBA, DBeaver, Loginom, BPMN</p></div>
         <div class="skill"><canvas class="ascii" data-shape="curve" data-size="7" aria-hidden="true"></canvas><h3>Статистика</h3><p>A/B-тесты, регрессия, корреляция, кластеризация, прогнозы</p></div>
         <div class="skill"><canvas class="ascii" data-shape="pie" data-size="7" aria-hidden="true"></canvas><h3>BI</h3><p>Apache Superset, Grafana, Power BI, Tableau, Yandex DataLens, Matplotlib, Seaborn</p></div>
         <div class="skill"><canvas class="ascii" data-shape="server" data-size="7" aria-hidden="true"></canvas><h3>Инфраструктура</h3><p>Zabbix, Prometheus, Grafana, Docker, Linux, VPN, REST API, JSON</p></div>
@@ -335,6 +344,14 @@ footer{position:relative;z-index:1;text-align:center;font:500 12px var(--mono);c
               <li>Собрал брендбук для всех продуктов службы.</li>
               <li>Настроил выгрузку данных из Zabbix для дашбордов сети и виртуальной инфраструктуры.</li>
             </ul>
+          </div>
+        </div>
+        <div class="job">
+          <div class="when">январь 2025</div>
+          <div>
+            <h3>Практикант (учебная практика)</h3>
+            <div class="org">ГКУ МО «МОЦ ИКТ» · служба эксплуатации межведомственных информационных систем</div>
+            <ul><li>Доработал систему учёта входящих запросов на вычислительные ресурсы (CPU, RAM, HDD, SSD, S3) на базе Excel.</li><li>Описал процесс обработки заявки в BPMN и проанализировал историю запросов: частоту, типы и востребованные ресурсы.</li><li>Написал макросы VBA для проверки данных, расчёта приоритета и отчётов, собрал дашборд по заявкам.</li><li>Связал учёт запросов с учётом свободных ресурсов ЦОД: автоматическая проверка наличия и прогноз потребностей.</li></ul>
           </div>
         </div>
         <div class="job">
@@ -383,6 +400,11 @@ footer{position:relative;z-index:1;text-align:center;font:500 12px var(--mono);c
   function syncLabels(){themeBtn.textContent=root.getAttribute('data-theme')==='dark'?'Светлая тема':'Тёмная тема';}
   syncLabels();
 
+  (function(){var b=new Date(2003,11,2),n=new Date(),y=n.getFullYear()-b.getFullYear();
+    if(n.getMonth()<b.getMonth()||(n.getMonth()===b.getMonth()&&n.getDate()<b.getDate()))y--;
+    var m=y%10,h=y%100,w=(m===1&&h!==11)?'год':(m>=2&&m<=4&&(h<12||h>14))?'года':'лет',txt=y+' '+w;
+    var el=document.getElementById('age');if(el)el.textContent=txt;
+    [].forEach.call(document.querySelectorAll('.age-js'),function(e){e.textContent=txt;});})();
   var clock=document.getElementById('clock');
   function tick(){var d=new Date();clock.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}
   tick();setInterval(tick,15000);
