@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карен Царукян — аналитик данных</title>
+<meta name="description" content="Карен Царукян — аналитик данных. Python, SQL, Zabbix, BI.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Карен Царукян — аналитик данных">
+<meta property="og:description" content="BI-платформы, мониторинг, внутренние сервисы. Работаю в связке с ИИ и делаю сложное простым.">
+<meta property="og:image" content="og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Handjet:wght@300..900&family=PT+Mono&display=swap">
+<style>
+:root{
+  --sans:"PT Mono",ui-monospace,Menlo,Consolas,monospace;
+  --mono:"PT Mono",ui-monospace,Menlo,Consolas,monospace;
+  --pixel:"Handjet","PT Mono",monospace;
+}
+[data-theme="dark"]{
+  --bg:#050806; --ink:#e6fff0; --mute:#9cc7aa; --ascii:#45f07a; --ascii-bg:#2fbf5c;
+  --glass:rgba(10,18,13,.07); --edge:rgba(150,255,190,.26); --edge-hi:rgba(220,255,235,.35);
+  --stripe:rgba(150,255,190,.38); --rib-hi:rgba(220,255,235,.10); --rib-lo:rgba(0,0,0,.34); --irid:.42; --chip:rgba(5,8,6,.85); --sheen1:rgba(160,140,255,.16); --sheen2:rgba(255,170,110,.10);
+  --btn:#45f07a; --btn-ink:#04140a; --shadow:0 24px 60px rgba(0,0,0,.55);
+}
+[data-theme="light"]{
+  --bg:#f3eedd; --ink:#1d180e; --mute:#5a5242; --ascii:#1d180e; --ascii-bg:#6b5f45;
+  --glass:rgba(255,252,240,.08); --edge:rgba(255,255,255,.85); --edge-hi:rgba(255,255,255,.95);
+  --stripe:rgba(29,24,14,.55); --rib-hi:rgba(255,255,255,.62); --rib-lo:rgba(70,50,20,.10); --irid:.6; --chip:rgba(250,246,233,.92); --sheen1:rgba(183,164,255,.22); --sheen2:rgba(255,178,125,.18);
+  --btn:#1d180e; --btn-ink:#f3eedd; --shadow:0 24px 50px rgba(60,45,20,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .35s,color .35s}
+a{color:inherit}
+canvas.ascii{display:block;width:100%;height:100%}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* menu island: text only, left middle */
+.menu{position:fixed;left:28px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;align-items:flex-start;gap:6px;font:500 24px/1 var(--pixel);letter-spacing:.02em}
+.menu a,.menu button{color:var(--ink);text-decoration:none;background:none;border:0;padding:6px 0;font:inherit;cursor:pointer;min-height:36px;text-align:left}
+.menu a:hover,.menu button:hover{text-decoration:underline;text-underline-offset:5px}
+.menu a.on::before{content:"> "}
+.menu .clock{color:var(--mute);margin-top:10px}
+.mbtn{font:500 19px var(--pixel);color:var(--ink);background:transparent;border:1px solid var(--edge);border-radius:6px;padding:6px 12px;cursor:pointer;min-height:34px}
+.mbtn:hover{background:var(--chip)}
+
+main{position:relative;z-index:1;max-width:1420px;margin:0 auto;padding:0 32px 40px 190px}
+
+/* glass mac window */
+.win{position:relative;border-radius:0;overflow:hidden;color:var(--ink);
+  --f:22px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--f),#000 calc(100% - var(--f)),transparent),linear-gradient(180deg,transparent,#000 var(--f),#000 calc(100% - var(--f)),transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 var(--f),#000 calc(100% - var(--f)),transparent),linear-gradient(180deg,transparent,#000 var(--f),#000 calc(100% - var(--f)),transparent);mask-composite:intersect;
+  background:linear-gradient(135deg,var(--sheen1),transparent 40%,var(--sheen2)),var(--glass);
+  backdrop-filter:blur(3px) saturate(150%);-webkit-backdrop-filter:blur(3px) saturate(150%);
+  border:0;box-shadow:inset 0 0 30px var(--sheen1)}
+.win::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;--rib:15px;
+  background:
+    repeating-linear-gradient(90deg,var(--rib-hi) 0,transparent calc(var(--rib)*.3),transparent calc(var(--rib)*.55),var(--rib-lo) calc(var(--rib)*.9),var(--rib-hi) var(--rib)),
+    linear-gradient(100deg,rgba(183,164,255,.24),rgba(255,178,125,.18) 22%,rgba(245,168,216,.2) 40%,rgba(120,210,255,.16) 58%,rgba(255,178,125,.18) 76%,rgba(183,164,255,.24));
+  background-size:auto,320% 100%;background-position:0 0,calc(var(--p,.5)*100%) 0;
+  filter:hue-rotate(calc(var(--p,.5)*80deg - 40deg));
+  opacity:var(--irid)}
+.win>*{position:relative;z-index:1}
+.win::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 60% at 20% 0%,var(--edge) 0%,transparent 55%);opacity:.2}
+.bar{display:flex;align-items:center;gap:10px;height:30px;margin-top:10px;padding:0 22px;position:relative}
+.bar::before{content:"";position:absolute;left:22px;right:22px;top:8px;bottom:8px;
+  background:repeating-linear-gradient(var(--stripe) 0 1px,transparent 1px 3px)}
+.bar .box{position:relative;width:13px;height:13px;border:1px solid var(--ink);background:var(--chip);flex:none}
+.bar .t{position:relative;margin:0 auto;background:var(--chip);padding:0 10px;font:500 19px var(--pixel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:75%}
+.pane{padding:26px 34px 34px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:24px;align-items:start;margin-left:-186px}
+.hero-r{padding-top:calc(50vh - 190px)}
+.hero-r{display:flex;flex-direction:column;gap:26px}
+h1{font:400 clamp(30px,4.6vw,64px)/1.18 var(--bit);letter-spacing:-.02em;margin:0;text-transform:uppercase}
+.asciiname{height:clamp(70px,7.4vw,118px);margin-left:-4px}
+.phone{font:600 clamp(32px,3.6vw,50px)/1.1 var(--pixel);letter-spacing:.02em;text-decoration:none;display:inline-flex;align-items:center;gap:14px;align-self:flex-start}
+.phone span{font:500 19px var(--pixel);color:var(--mute)}
+.phone{white-space:nowrap}
+.phone:hover{text-decoration:underline;text-underline-offset:6px}
+.namewin .pane{padding:24px 28px 28px}
+.role{font:600 23px var(--pixel);letter-spacing:.04em;margin:0 0 12px;text-transform:uppercase}
+.lead{font-size:16px;line-height:1.6;margin:0 0 20px;max-width:34em}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chip{font:500 19px var(--pixel);border:0;border-radius:999px;padding:5px 11px;background:var(--chip)}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:0 20px;border-radius:10px;font:600 22px var(--pixel);text-decoration:none;border:1px solid var(--btn)}
+.btn.primary{background:var(--btn);color:var(--btn-ink)}
+.btn.ghost{color:var(--ink)}
+.btn:hover{filter:brightness(1.08)}
+.figure{position:relative;height:126vh;min-height:780px}
+.figure canvas{height:100%}
+
+/* sections */
+section.block{padding:56px 0}
+.head{display:flex;align-items:flex-end;gap:18px;margin-bottom:22px}
+.head canvas{height:96px;width:min(620px,100%)}
+.head .n{font:500 19px var(--pixel);color:var(--mute);padding-bottom:10px;white-space:nowrap}
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:22px}
+.traits{margin:0 0 18px;padding-left:20px;font-size:16px;line-height:1.6}.traits li{margin:5px 0}
+.about p{margin:0 0 14px;font-size:16px;line-height:1.65}
+.facts{display:grid;gap:14px}
+.stack{display:grid;gap:22px;align-content:start}
+.fact{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
+.fact canvas{height:64px}
+.fact b{display:block;font:600 28px/1.2 var(--pixel)}
+.fact span{font-size:14px;color:var(--mute)}
+
+.projects{display:grid;grid-template-columns:1fr;gap:22px}
+.pbody{display:grid;grid-template-columns:300px 1fr;align-items:start}
+.proj .pimg{height:240px;margin:14px 0 0 14px}
+.stack-line{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px}.stack-line span{font:500 19px var(--pixel);background:var(--chip);padding:3px 10px;border-radius:999px}
+.projects ul{margin:0;padding-left:20px}.projects li{margin:3px 0;font-size:15px;line-height:1.55}
+.note-ds{margin:4px 0 0;color:var(--mute);font-size:15px}
+.pimg{height:170px}
+.pimg canvas{height:100%}
+.projects .pane{padding:18px 28px 30px}
+.projects h3{margin:0 0 4px;font:600 30px/1.2 var(--pixel)}
+.projects .sub{font:500 12px var(--mono);color:var(--mute);margin-bottom:10px}
+.projects p{margin:0 0 12px;font-size:15px;line-height:1.55}
+
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.skill{padding:20px 24px 30px}
+.skill:first-child{border-left:0}
+.skill canvas{height:70px;margin-bottom:12px}
+.skill h3{margin:0 0 6px;font:600 22px var(--pixel);text-transform:uppercase;letter-spacing:.06em}
+.skill p{margin:0;font-size:14px;line-height:1.55}
+
+.job{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:22px 0}
+.job:first-child{border-top:0;padding-top:4px}
+.job .when{font:600 22px var(--pixel)}
+.job h3{margin:0;font:600 30px/1.25 var(--pixel)}
+.job .org{font:500 12px var(--mono);color:var(--mute);margin:4px 0 10px;text-transform:uppercase;letter-spacing:.06em}
+.job ul{margin:0;padding-left:18px}
+.job li{margin:4px 0}
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+
+.quotes{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.quote .pane{display:grid;grid-template-columns:84px 1fr;gap:18px;align-items:start}
+.quote canvas{height:70px}
+.quote blockquote{margin:0;font-size:16px;line-height:1.7}
+.quote figcaption{margin-top:14px;font:500 22px var(--pixel);color:var(--mute)}
+.quote ul{margin:0;padding-left:18px}.quote li{margin:4px 0}
+.contact{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:center}
+.contact canvas{height:150px}
+.mail{font:600 clamp(32px,5vw,62px)/1.05 var(--pixel);word-break:break-word;text-decoration:none;display:inline-block;margin:6px 0 14px}
+.mail:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
+footer{position:relative;z-index:1;text-align:center;font:500 12px var(--mono);color:var(--mute);padding:20px 0 40px}
+
+@media (max-width:1000px){
+  .menu{top:8px;left:auto;right:16px;transform:none;flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:16px;font-size:22px}
+  .menu .clock{display:none}
+  main{padding-left:24px;padding-right:24px}
+  .hero{margin-left:0;padding-top:64px;align-items:center}
+  .hero-r{padding-top:0}
+  .figure{height:100vh;min-height:0}
+  .skills{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:760px){
+  .menu{left:16px;right:16px;gap:14px;font-size:18px;flex-wrap:nowrap}
+  .menu .opt{display:none}
+  .hero{grid-template-columns:1fr;min-height:0;padding-top:64px;gap:24px}
+  .figure{height:66vh;min-height:0}
+  .asciiname{height:56px}
+  .phone{font-size:30px}.phone span{display:none}
+  .about,.edu,.contact,.quotes{grid-template-columns:1fr}
+  .quote .pane{grid-template-columns:1fr}.quote canvas{width:84px}
+  .pbody{grid-template-columns:1fr}
+  .proj .pimg{height:160px;margin:10px 14px 0}
+  .skills{grid-template-columns:1fr}
+  .job{grid-template-columns:1fr;gap:6px}
+  .pane{padding:20px}
+  .contact canvas{height:110px;width:160px}
+}
+</style>
+</head>
+<body>
+<canvas id="bg" class="ascii" data-shape="field" data-size="13" aria-hidden="true"></canvas>
+
+<nav class="menu" aria-label="Разделы">
+  <a class="opt" href="#about">Обо мне</a><a href="#projects">Проекты</a><a class="opt" href="#skills">Навыки</a><a class="opt" href="#experience">Опыт</a><a href="#contact">Контакты</a>
+  <button id="themeBtn" type="button">Светлая тема</button>
+  <span class="clock" id="clock" aria-hidden="true">00:00</span>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="figure">
+      <canvas class="ascii" id="fig" data-shape="figure" data-size="7" role="img" aria-label="Портрет Карена Царукяна, нарисованный символами"></canvas>
+    </div>
+    <div class="hero-r">
+      <h1 class="sr">Царукян Карен</h1>
+      <div class="asciiname"><canvas class="ascii" data-shape="text" data-text="ЦАРУКЯН КАРЕН" data-size="6" aria-hidden="true"></canvas></div>
+      <a class="phone" href="tel:+79933131666">+7 (993) 31-31-666</a>
+      <div class="win namewin">
+        <div class="bar"><span class="box"></span><span class="t">karen.txt</span></div>
+        <div class="pane">
+          <div class="role">Аналитик данных</div>
+          <p class="lead">Делаю аналитику и внутренние сервисы под ключ: от сбора данных до BI-платформы, портала и системы заявок. Работаю в связке с ИИ, поэтому быстро прохожу путь от задачи до работающего инструмента и делаю сложное простым.</p>
+          <div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Superset</span><span class="chip">React</span><span class="chip">Zabbix</span><span class="chip">ИИ</span></div>
+          <div class="actions">
+            <a class="btn primary" href="#projects">Смотреть проекты →</a>
+            <a class="btn ghost" href="https://t.me/LegendaryWhatever" target="_blank" rel="noopener">Написать в Telegram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="head"><canvas class="ascii" data-shape="text" data-text="ОБО МНЕ" data-size="6" aria-hidden="true"></canvas><span class="n">01 / 05</span></div>
+    <h2 class="sr">Обо мне</h2>
+    <div class="about">
+      <div class="win">
+        <div class="bar"><span class="box"></span><span class="t">about.txt</span></div>
+        <div class="pane">
+          <p>Аналитик, который не останавливается на отчёте. Прохожу путь целиком: собираю данные из Zabbix, Prometheus и баз, считаю метрики на Python и SQL и превращаю их в дашборды и инструменты, которыми команда пользуется каждый день.</p>
+          <p>Сам проектирую и запускаю продукты под задачи службы: BI-платформу, портал и систему учёта заявок. В работе опираюсь на ИИ, а в свободное от задач время пишу научные статьи по экономике.</p>
+          <p style="margin:18px 0 8px;font:600 22px var(--pixel)">По словам коллег</p>
+          <ul class="traits">
+            <li>Схватываю на лету и сам осваиваю новое: если чего-то не знаю, быстро разберусь.</li>
+            <li>Если нужного инструмента нет, делаю его сам.</li>
+            <li>Нарушаю принцип GIGO: из сырых и разрозненных вводных получается аккуратный результат.</li>
+            <li>Умею сделать сложное простым.</li>
+            <li>Беру на себя комплексные проекты от и до и довожу их до конца. Многозадачен, на меня можно положиться.</li>
+            <li>Инициативный и энергичный, мне искренне нравится то, что я делаю.</li>
+            <li>Организатор с творческим подходом: вижу картину шире и умею договариваться.</li>
+            <li>Работаю без конфликтов, в команде — душа компании.</li>
+          </ul>
+          <p style="margin:0;color:var(--mute);font:500 13px var(--mono)">Москва · готов к переезду · права B, B1, M</p>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="win">
+          <div class="bar"><span class="box"></span><span class="t">education.txt</span></div>
+          <div class="pane facts">
+            <div class="fact"><canvas class="ascii" data-shape="cap" data-size="7" aria-hidden="true"></canvas><div><b>Кубанский государственный университет</b><span>Экономический факультет · «Системный анализ и управление» · очно · выпуск 2026</span></div></div>
+          </div>
+        </div>
+        <div class="win">
+          <div class="bar"><span class="box"></span><span class="t">facts.sys</span></div>
+          <div class="pane facts">
+            <div class="fact"><canvas class="ascii" data-shape="server" data-size="7" aria-hidden="true"></canvas><div><b>3 продукта в работе</b><span>BI-платформа, портал службы и система учёта заявок</span></div></div>
+            <div class="fact"><canvas class="ascii" data-shape="doc" data-size="7" aria-hidden="true"></canvas><div><b>Автор научных статей</b><span>Публикация в журнале ВАК и ещё 3+ в РИНЦ — о нематериальных активах и креативной экономике России, цифровой трансформации в ЕАЭС, моделях кадровой политики, платформах для бизнес-аналитики и не только</span></div></div>
+            <div class="fact"><canvas class="ascii" data-shape="globe" data-size="7" aria-hidden="true"></canvas><div><b>Говорю на 4 языках</b><span>Армянский — родной, русский — свободно, английский — B1, испанский — A2</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="head"><canvas class="ascii" data-shape="text" data-text="ПРОЕКТЫ" data-size="6" aria-hidden="true"></canvas><span class="n">02 / 05</span></div>
+    <h2 class="sr">Проекты</h2>
+    <div class="projects">
+      <article class="win proj">
+        <div class="bar"><span class="box"></span><span class="t">bi_platform.app</span></div>
+        <div class="pbody">
+          <div class="pimg"><canvas class="ascii" data-shape="bars" data-size="8" aria-hidden="true"></canvas></div>
+          <div class="pane">
+            <h3>Аналитическая BI-платформа</h3>
+            <div class="stack-line"><span>Apache Superset</span><span>Python</span><span>SQL</span><span>Zabbix</span><span>Grafana</span></div>
+            <p><b>Как появилась.</b> Службе нужна была единая витрина аналитики вместо разрозненных отчётов из систем мониторинга. Платформа выросла из первой версии и получила собственное оформление.</p>
+            <p style="margin-bottom:6px"><b>Что умеет:</b></p>
+            <ul><li>дашборды и отчёты на Superset в собственной теме и единой палитре графиков;</li><li>своя оболочка: страница входа, навигация, оформленные страницы ошибок;</li><li>пороги из Grafana и Zabbix приводятся к общей шкале состояний;</li><li>ассистент внутри платформы.</li></ul>
+          </div>
+        </div>
+      </article>
+      <article class="win proj">
+        <div class="bar"><span class="box"></span><span class="t">portal.html</span></div>
+        <div class="pbody">
+          <div class="pimg"><canvas class="ascii" data-shape="portal" data-size="8" aria-hidden="true"></canvas></div>
+          <div class="pane">
+            <h3>Портал службы мониторинга</h3>
+            <div class="stack-line"><span>React</span><span>TypeScript</span><span>дизайн-система</span><span>Zabbix · Jira · Confluence · Telegram</span></div>
+            <p><b>Как появилась.</b> Сотрудникам и заказчикам нужна была одна точка входа в службу: подать запрос, увидеть состояние сервисов и найти нужный инструмент без поиска ссылок.</p>
+            <p style="margin-bottom:6px"><b>Что умеет:</b></p>
+            <ul><li>запросы на постановку на мониторинг, изменение и снятие;</li><li>витрина состояния сервисов с плитками статусов;</li><li>раздел дежурства 24/7, уведомления и чат;</li><li>быстрые переходы в Zabbix, Jira, Confluence и Telegram.</li></ul>
+          </div>
+        </div>
+      </article>
+      <article class="win proj">
+        <div class="bar"><span class="box"></span><span class="t">tickets.db</span></div>
+        <div class="pbody">
+          <div class="pimg"><canvas class="ascii" data-shape="tickets" data-size="8" aria-hidden="true"></canvas></div>
+          <div class="pane">
+            <h3>Система учёта заявок</h3>
+            <div class="stack-line"><span>веб-приложение</span><span>база данных</span><span>общая дизайн-система службы</span></div>
+            <p><b>Как появилась.</b> Заявки службы нужно было собрать в одном месте, чтобы видеть их путь от поступления до закрытия и нагрузку на команду.</p>
+            <p style="margin-bottom:6px"><b>Что умеет:</b></p>
+            <ul><li>приём и регистрация заявок;</li><li>статусы, ответственные и сроки;</li><li>история работы по каждой заявке;</li><li>отчёты по нагрузке и срокам выполнения.</li></ul>
+          </div>
+        </div>
+      </article>
+      <p class="note-ds">Все три продукта выполнены по единому брендбуку, который я собрал для службы: цвета, шрифт, значки, компоненты и правила текстов.</p>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <div class="head"><canvas class="ascii" data-shape="text" data-text="НАВЫКИ" data-size="6" aria-hidden="true"></canvas><span class="n">03 / 05</span></div>
+    <h2 class="sr">Навыки</h2>
+    <div class="win">
+      <div class="bar"><span class="box"></span><span class="t">skills.cfg</span></div>
+      <div class="skills">
+        <div class="skill"><canvas class="ascii" data-shape="db" data-size="7" aria-hidden="true"></canvas><h3>Данные</h3><p>SQL, Python (Pandas, NumPy, Scikit-learn), Excel, DBeaver, Loginom</p></div>
+        <div class="skill"><canvas class="ascii" data-shape="curve" data-size="7" aria-hidden="true"></canvas><h3>Статистика</h3><p>A/B-тесты, регрессия, корреляция, кластеризация, прогнозы</p></div>
+        <div class="skill"><canvas class="ascii" data-shape="pie" data-size="7" aria-hidden="true"></canvas><h3>BI</h3><p>Apache Superset, Grafana, Power BI, Tableau, Yandex DataLens, Matplotlib, Seaborn</p></div>
+        <div class="skill"><canvas class="ascii" data-shape="server" data-size="7" aria-hidden="true"></canvas><h3>Инфраструктура</h3><p>Zabbix, Prometheus, Grafana, Docker, Linux, VPN, REST API, JSON</p></div>
+        <div class="skill"><canvas class="ascii" data-shape="ai" data-size="7" aria-hidden="true"></canvas><h3>ИИ</h3><p>Claude и другие LLM, промпт-инжиниринг, ИИ-агенты для кода, анализа данных и документов, автоматизация рутины</p></div>
+        <div class="skill"><canvas class="ascii" data-shape="orb" data-size="7" aria-hidden="true"></canvas><h3>Дизайн</h3><p>Figma, Photoshop, After Effects, Lightroom</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="experience">
+    <div class="head"><canvas class="ascii" data-shape="text" data-text="ОПЫТ" data-size="6" aria-hidden="true"></canvas><span class="n">04 / 05</span></div>
+    <h2 class="sr">Опыт</h2>
+    <div class="win">
+      <div class="bar"><span class="box"></span><span class="t">experience.log</span></div>
+      <div class="pane">
+        <div class="job">
+          <div class="when">февраль 2026 — н. в.</div>
+          <div>
+            <h3>Старший эксперт</h3>
+            <div class="org">ГКУ МО «МОЦ ИКТ» · отдел аналитики службы мониторинга</div>
+            <ul>
+              <li>Развиваю аналитическую BI-платформу службы на Apache Superset: дашборды, метрики, единая шкала состояний для данных Grafana и Zabbix.</li>
+              <li>Создал портал службы и систему учёта заявок.</li>
+              <li>Собрал брендбук для всех продуктов службы.</li>
+              <li>Настроил выгрузку данных из Zabbix для дашбордов сети и виртуальной инфраструктуры.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="job">
+          <div class="when">2022 — 2026</div>
+          <div>
+            <h3>Научная работа и студенческие проекты</h3>
+            <div class="org">КубГУ</div>
+            <ul>
+              <li>Более 3 статей в РИНЦ, статья принята к изданию в журнале ВАК.</li>
+              <li>Доклады на внутривузовских и международных конференциях.</li>
+              <li>Формировал команды и руководил студенческими проектами.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="head"><canvas class="ascii" data-shape="text" data-text="КОНТАКТЫ" data-size="6" aria-hidden="true"></canvas><span class="n">05 / 05</span></div>
+    <h2 class="sr">Контакты</h2>
+    <div class="win">
+      <div class="bar"><span class="box"></span><span class="t">mail.app</span></div>
+      <div class="pane contact">
+        <canvas class="ascii" data-shape="mail" data-size="8" aria-hidden="true"></canvas>
+        <div>
+          <div style="font:600 22px var(--pixel);text-transform:uppercase;letter-spacing:.04em">Открыт к предложениям о работе аналитиком</div>
+          <a class="mail" href="mailto:karents777@gmail.com">karents777@gmail.com</a><br>
+          <a class="mail" href="tel:+79933131666" style="margin-top:0">+7 (993) 31-31-666</a><br>
+          <a class="mail" href="https://t.me/LegendaryWhatever" target="_blank" rel="noopener" style="margin-top:0">Telegram: @LegendaryWhatever</a>
+          <div style="color:var(--mute);max-width:46em;line-height:1.6">Люблю искусство, архитектуру и парфюмерию, снимаю фото и видео — это тренирует глаз на композицию, который потом пригождается в дашбордах и интерфейсах. А гребля и бег держат в форме и учат выносливости на длинной дистанции.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>© 2026 Карен Царукян</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+  var themeBtn=document.getElementById('themeBtn'), menuEl=document.querySelector('.menu');
+  var saved=store('cv-theme'); if(saved==='light'||saved==='dark')root.setAttribute('data-theme',saved);
+  var photoMode='pos';function syncPhoto(){photoMode=root.getAttribute('data-theme')==='dark'?'neg':'pos';}syncPhoto();
+  function syncLabels(){themeBtn.textContent=root.getAttribute('data-theme')==='dark'?'Светлая тема':'Тёмная тема';}
+  syncLabels();
+
+  var clock=document.getElementById('clock');
+  function tick(){var d=new Date();clock.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}
+  tick();setInterval(tick,15000);
+
+  var RAMP=' .`:-=+*#%@'.split(''), L=RAMP.length-1;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var figImg=new Image(), figReady=false;
+
+  function raster(cols,rows,cw,ch,draw){
+    var W=Math.max(1,Math.round(cols*cw)),H=Math.max(1,Math.round(rows*ch));
+    var big=document.createElement('canvas');big.width=W;big.height=H;var g=big.getContext('2d');draw(g,W,H);
+    var sm=document.createElement('canvas');sm.width=cols;sm.height=rows;var s=sm.getContext('2d');
+    s.imageSmoothingEnabled=true;s.imageSmoothingQuality='high';s.drawImage(big,0,0,cols,rows);
+    return s.getImageData(0,0,cols,rows).data;}
+  function alphaMask(data){var m=new Float32Array(data.length/4);for(var i=0;i<m.length;i++)m[i]=data[i*4+3]/255;return m;}
+  function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
+  function fitBox(W,H,ar){var w=W,h=W/ar;if(h>H){h=H;w=H*ar;}return {x:(W-w)/2,y:(H-h)/2,w:w,h:h};}
+
+  var draws={
+    text:function(g,W,H,el){var lines=el.dataset.text.split('|'),n=lines.length,lh=H/n,fs=lh*.92,
+        f=function(){return '800 '+fs+'px "Arial Black", "Inter", "Helvetica Neue", Arial, sans-serif';};
+      var sp=.14;g.font=f();var wide=function(){return Math.max.apply(null,lines.map(function(l){return g.measureText(l).width+fs*sp*(l.length-1);}));};
+      while(wide()>W*.99&&fs>6){fs-=1;g.font=f();}
+      g.fillStyle='#000';g.textBaseline='middle';
+      lines.forEach(function(l,i){var x=0,y=lh*i+lh*.54;l.split('').forEach(function(ch){g.fillText(ch,x,y);x+=g.measureText(ch).width+fs*sp;});});},
+    cap:function(g,W,H){var b=fitBox(W,H,1.5);g.fillStyle='#000';g.beginPath();g.moveTo(b.x,b.y+b.h*.35);g.lineTo(b.x+b.w/2,b.y);g.lineTo(b.x+b.w,b.y+b.h*.35);g.lineTo(b.x+b.w/2,b.y+b.h*.7);g.closePath();g.fill();
+      g.globalAlpha=.6;g.fillRect(b.x+b.w*.25,b.y+b.h*.5,b.w*.5,b.h*.35);g.fillRect(b.x+b.w*.88,b.y+b.h*.35,b.w*.03,b.h*.5);},
+    doc:function(g,W,H){var b=fitBox(W,H,.8);g.fillStyle='rgba(0,0,0,.35)';g.fillRect(b.x,b.y,b.w,b.h);g.fillStyle='#000';for(var i=0;i<5;i++)g.fillRect(b.x+b.w*.15,b.y+b.h*(.18+i*.15),b.w*(i===4?.4:.7),b.h*.06);},
+    globe:function(g,W,H){var b=fitBox(W,H,1),cx=b.x+b.w/2,cy=b.y+b.h/2,r=b.w*.46;g.strokeStyle='#000';g.lineWidth=r*.12;
+      g.beginPath();g.arc(cx,cy,r,0,7);g.stroke();g.beginPath();g.ellipse(cx,cy,r*.45,r,0,0,7);g.stroke();g.beginPath();g.moveTo(cx-r,cy);g.lineTo(cx+r,cy);g.stroke();
+      g.globalAlpha=.25;g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,7);g.fill();},
+    bars:function(g,W,H){var v=[.3,.55,.4,.7,.5,.9,.62,.78,.45,.85,.58,.95,.7,.5];g.fillStyle='#000';
+      v.forEach(function(x,i){g.globalAlpha=.35+.65*x;var bw=W/v.length;g.fillRect(i*bw+bw*.18,H*(.95-x*.85),bw*.64,H*x*.85);});},
+    line:function(g,W,H){g.strokeStyle='#000';g.lineCap='round';g.lineWidth=H*.06;g.beginPath();[[.04,.86],[.3,.8],[.56,.55],[.8,.3],[.97,.08]].forEach(function(p,i){i?g.lineTo(p[0]*W,p[1]*H):g.moveTo(p[0]*W,p[1]*H);});g.stroke();
+      g.globalAlpha=.45;g.lineWidth=H*.035;g.beginPath();[[.04,.88],[.3,.85],[.56,.8],[.8,.74],[.97,.68]].forEach(function(p,i){i?g.lineTo(p[0]*W,p[1]*H):g.moveTo(p[0]*W,p[1]*H);});g.stroke();
+      g.globalAlpha=.15;g.fillStyle='#000';g.beginPath();g.moveTo(.04*W,.86*H);[[.3,.8],[.56,.55],[.8,.3],[.97,.08],[.97,1],[.04,1]].forEach(function(p){g.lineTo(p[0]*W,p[1]*H);});g.fill();},
+    toggles:function(g,W,H){var b=fitBox(W,H,1.9);g.fillStyle='rgba(0,0,0,.3)';rr(g,b.x,b.y,b.w,b.h,b.h*.08);g.fill();
+      for(var i=0;i<3;i++){var y=b.y+b.h*(.18+i*.27),on=i===0;g.fillStyle=on?'#000':'rgba(0,0,0,.55)';rr(g,b.x+b.w*.62,y,b.w*.24,b.h*.17,b.h*.085);g.fill();
+        g.fillStyle='rgba(255,255,255,1)';g.globalCompositeOperation='destination-out';g.beginPath();g.arc(b.x+b.w*(on?.79:.69),y+b.h*.085,b.h*.06,0,7);g.fill();g.globalCompositeOperation='source-over';
+        g.fillStyle='#000';g.fillRect(b.x+b.w*.1,y+b.h*.06,b.w*.36,b.h*.05);}},
+    bottle:function(g,W,H){var b=fitBox(W,H,.9);g.fillStyle='#000';g.fillRect(b.x+b.w*.4,b.y,b.w*.2,b.h*.14);g.globalAlpha=.6;g.fillRect(b.x+b.w*.45,b.y+b.h*.14,b.w*.1,b.h*.1);
+      var gr=g.createLinearGradient(b.x,0,b.x+b.w,0);gr.addColorStop(0,'rgba(0,0,0,.95)');gr.addColorStop(.5,'rgba(0,0,0,.25)');gr.addColorStop(1,'rgba(0,0,0,.8)');g.globalAlpha=1;g.fillStyle=gr;rr(g,b.x+b.w*.12,b.y+b.h*.24,b.w*.76,b.h*.74,b.w*.12);g.fill();},
+    table:function(g,W,H){var b=fitBox(W,H,1.8);g.fillStyle='#000';var c=5,r=6;for(var i=0;i<r;i++)for(var j=0;j<c;j++){g.globalAlpha=i===0?1:(j===0?.7:.25+((i*7+j*3)%5)*.12);
+      g.fillRect(b.x+j*b.w/c+2,b.y+i*b.h/r+2,b.w/c-4,b.h/r-4);}},
+    db:function(g,W,H){var b=fitBox(W,H,.9),cx=b.x+b.w/2;g.fillStyle='#000';for(var i=2;i>=0;i--){var y=b.y+b.h*(.15+i*.28);g.globalAlpha=.45+i*.2;g.fillRect(b.x+b.w*.1,y,b.w*.8,b.h*.22);g.beginPath();g.ellipse(cx,y+b.h*.22,b.w*.4,b.h*.08,0,0,7);g.fill();}
+      g.globalAlpha=1;g.beginPath();g.ellipse(cx,b.y+b.h*.15,b.w*.4,b.h*.08,0,0,7);g.fill();},
+    curve:function(g,W,H){var b=fitBox(W,H,1.4);g.fillStyle='#000';for(var i=0;i<40;i++){var x=(i*37%100)/100,y=.85-x*.65+((i*53%30)-15)/100;g.globalAlpha=.6;g.beginPath();g.arc(b.x+x*b.w,b.y+y*b.h,b.h*.045,0,7);g.fill();}
+      g.globalAlpha=1;g.strokeStyle='#000';g.lineWidth=b.h*.06;g.beginPath();g.moveTo(b.x,b.y+b.h*.88);g.lineTo(b.x+b.w,b.y+b.h*.2);g.stroke();},
+    pie:function(g,W,H){var b=fitBox(W,H,1),cx=b.x+b.w/2,cy=b.y+b.h/2,r=b.w*.46,a=0;[[.45,1],[.3,.55],[.25,.25]].forEach(function(s){g.globalAlpha=s[1];g.fillStyle='#000';g.beginPath();g.moveTo(cx,cy);g.arc(cx,cy,r,a,a+s[0]*6.283);g.fill();a+=s[0]*6.283;});},
+    server:function(g,W,H){var b=fitBox(W,H,1.2);for(var i=0;i<3;i++){var y=b.y+i*b.h/3;g.globalAlpha=.4;g.fillStyle='#000';rr(g,b.x,y+2,b.w,b.h/3-6,4);g.fill();g.globalAlpha=1;g.fillRect(b.x+b.w*.08,y+b.h*.12,b.w*.08,b.h*.08);g.fillRect(b.x+b.w*.5,y+b.h*.13,b.w*.4,b.h*.05);}},
+    orb:function(g,W,H){var b=fitBox(W,H,1),cx=b.x+b.w/2,cy=b.y+b.h/2,r=b.w*.47,gr=g.createRadialGradient(cx-r*.4,cy-r*.4,r*.05,cx,cy,r);gr.addColorStop(0,'rgba(0,0,0,.1)');gr.addColorStop(1,'rgba(0,0,0,1)');g.fillStyle=gr;g.beginPath();g.arc(cx,cy,r,0,7);g.fill();},
+    ai:function(g,W,H){var b=fitBox(W,H,1.2);g.fillStyle='#000';
+      function star(cx,cy,r,a){g.globalAlpha=a;g.beginPath();g.moveTo(cx,cy-r);g.quadraticCurveTo(cx,cy,cx+r,cy);g.quadraticCurveTo(cx,cy,cx,cy+r);g.quadraticCurveTo(cx,cy,cx-r,cy);g.quadraticCurveTo(cx,cy,cx,cy-r);g.fill();}
+      star(b.x+b.w*.42,b.y+b.h*.55,b.h*.44,1);star(b.x+b.w*.82,b.y+b.h*.22,b.h*.2,.75);star(b.x+b.w*.84,b.y+b.h*.8,b.h*.12,.55);},
+    portal:function(g,W,H){var b=fitBox(W,H,1.7);g.fillStyle='rgba(0,0,0,.3)';g.fillRect(b.x,b.y,b.w,b.h);g.fillStyle='#000';
+      g.fillRect(b.x,b.y,b.w,b.h*.12);g.globalAlpha=.85;g.fillRect(b.x+b.w*.04,b.y+b.h*.2,b.w*.22,b.h*.72);
+      g.globalAlpha=.6;for(var i=0;i<3;i++)for(var j=0;j<2;j++)g.fillRect(b.x+b.w*(.3+i*.23),b.y+b.h*(.2+j*.38),b.w*.2,b.h*.32);},
+    tickets:function(g,W,H){var b=fitBox(W,H,1.7);for(var i=0;i<5;i++){var y=b.y+i*b.h/5;g.globalAlpha=.3;g.fillStyle='#000';g.fillRect(b.x,y+2,b.w,b.h/5-6);
+        g.globalAlpha=[1,.75,.5,1,.35][i];g.beginPath();g.arc(b.x+b.w*.06,y+b.h/10,b.h*.045,0,7);g.fill();
+        g.globalAlpha=.9;g.fillRect(b.x+b.w*.13,y+b.h*.08,b.w*(.35+(i%3)*.12),b.h*.04);g.globalAlpha=.6;g.fillRect(b.x+b.w*.78,y+b.h*.07,b.w*.16,b.h*.06);}},
+    quote:function(g,W,H){var b=fitBox(W,H,1.3),r=b.h*.26;g.fillStyle='#000';[0,.52].forEach(function(o){var cx=b.x+b.w*(o+.24),cy=b.y+b.h*.34;
+        g.beginPath();g.arc(cx,cy,r,0,7);g.fill();g.beginPath();g.moveTo(cx+r*.95,cy);g.quadraticCurveTo(cx+r*.9,cy+r*2.4,cx-r*.9,cy+r*2.6);g.lineTo(cx-r*.6,cy+r*2.0);g.quadraticCurveTo(cx+r*.3,cy+r*1.5,cx,cy+r);g.fill();});},
+    mail:function(g,W,H){var b=fitBox(W,H,1.45);g.fillStyle='rgba(0,0,0,.4)';g.fillRect(b.x,b.y,b.w,b.h);g.strokeStyle='#000';g.lineWidth=b.h*.08;g.strokeRect(b.x+b.h*.04,b.y+b.h*.04,b.w-b.h*.08,b.h*.92);
+      g.beginPath();g.moveTo(b.x,b.y);g.lineTo(b.x+b.w/2,b.y+b.h*.58);g.lineTo(b.x+b.w,b.y);g.stroke();}
+  };
+
+  function buildMask(a){
+    var cols=a.cols,rows=a.rows; if(cols<1||rows<1){a.mask=null;return;}
+    if(a.shape==='field'){a.mask=null;a.prev=new Array(cols*rows).fill(' ');return;}
+    if(a.shape==='figure'){
+      if(!figReady){a.mask=null;return;}
+      var ar=(figImg.width/figImg.height)*(a.ch/a.cw);
+      var data=raster(cols,rows,1,1,function(g,W,H){var b=fitBox(W,H,ar);if(W>H*ar*1.05&&window.innerWidth>760)b.x=0;g.drawImage(figImg,b.x,b.y,b.w,b.h);});
+      var m=new Float32Array(cols*rows);
+      for(var i=0;i<m.length;i++){var al=data[i*4+3]/255;if(al<.2){m[i]=0;continue;}
+        var lum=(.3*data[i*4]+.59*data[i*4+1]+.11*data[i*4+2])/255;
+        var v=photoMode==='pos'?1-lum:lum; v=Math.min(1,Math.max(0,(v-.08)*1.25));
+        m[i]=al*(.16+.84*v);}
+      a.mask=m;
+    } else {
+      var el=a.el; a.mask=alphaMask(raster(cols,rows,a.cw,a.ch,function(g,W,H){draws[a.shape](g,W,H,el);}));
+    }
+    a.prev=new Array(cols*rows).fill(' ');
+  }
+
+  var arts=[].slice.call(document.querySelectorAll('canvas.ascii')).map(function(el){return {el:el,shape:el.dataset.shape,size:+(el.dataset.size||9),visible:false,drawn:false};});
+
+  function layout(a){
+    var r=a.el.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
+    a.fs=a.size*(r.width<520?.72:1);a.cw=a.fs*.6;a.ch=a.fs*1.08;
+    a.w=r.width;a.h=r.height;a.el.width=Math.round(r.width*dpr);a.el.height=Math.round(r.height*dpr);
+    a.ctx=a.el.getContext('2d');a.ctx.setTransform(dpr,0,0,dpr,0,0);
+    a.cols=Math.floor(r.width/a.cw);a.rows=Math.floor(r.height/a.ch);
+    a.ox=(r.width-a.cols*a.cw)/2;a.oy=(r.height-a.rows*a.ch)/2;
+    buildMask(a);a.drawn=false;}
+  function layoutAll(){arts.forEach(layout);readColors();}
+
+  var colors={};
+  function readColors(){var cs=getComputedStyle(root);colors.ascii=cs.getPropertyValue('--ascii').trim();colors.bg=cs.getPropertyValue('--ascii-bg').trim();}
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){var a=e.target.__a;if(a)a.visible=e.isIntersecting;});},{rootMargin:'100px'});
+  arts.forEach(function(a){a.el.__a=a;io.observe(a.el);});
+  arts[0].visible=true;
+
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(layoutAll,150);});
+
+  themeBtn.addEventListener('click',function(){var d=root.getAttribute('data-theme')==='dark';root.setAttribute('data-theme',d?'light':'dark');store('cv-theme',d?'light':'dark');syncLabels();syncPhoto();readColors();arts.forEach(function(a){if(a.shape==='figure')buildMask(a);a.drawn=false;});});
+
+  figImg.onload=function(){figReady=true;arts.forEach(function(a){if(a.shape==='figure'){buildMask(a);a.drawn=false;}});};
+  figImg.src='figure.png';
+
+  layoutAll();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layoutAll);
+
+  var wins=[].slice.call(document.querySelectorAll('.win')), sq=false;
+  function scrollIrid(){sq=false;var vh=window.innerHeight;
+    wins.forEach(function(w){var r=w.getBoundingClientRect();if(r.bottom<-50||r.top>vh+50)return;
+      var p=(r.top+r.height/2)/(vh+r.height); w.style.setProperty('--p',Math.max(0,Math.min(1,1-p)).toFixed(3));});}
+  window.addEventListener('scroll',function(){if(!sq){sq=true;requestAnimationFrame(scrollIrid);}},{passive:true});
+  window.addEventListener('resize',scrollIrid);scrollIrid();
+  var t0=performance.now(),last=0;
+  function render(a,t){
+    var ctx=a.ctx,cols=a.cols,rows=a.rows,p=a.prev; if(!ctx||!p)return;
+    var field=a.shape==='field', fig=a.shape==='figure', m=a.mask;
+    if(!field&&!m)return;
+    var rate=reduce?0:(field?.5:fig?.22:.3);
+    ctx.clearRect(0,0,a.w,a.h);ctx.font=a.fs+'px "PT Mono", ui-monospace, monospace';ctx.textBaseline='top';
+    ctx.fillStyle=field?colors.bg:colors.ascii; ctx.globalAlpha=field?(root.getAttribute('data-theme')==='dark'?.32:.22):1;
+    var tt=reduce?0:t;
+    for(var y=0;y<rows;y++){for(var x=0;x<cols;x++){var i=y*cols+x,d;
+        if(field){var v=(Math.sin(x*.055+tt*.5)+Math.sin(y*.09-tt*.35)+Math.sin((x+y*1.6)*.03+tt*.25))/3;d=Math.min(.5,Math.max(0,(v-.3)*1.4));}
+        else{d=m[i];if(fig&&d>0)d=Math.min(1,d*(.92+.1*Math.sin(tt*2.2-y*.18)));}
+        if(d<.05){p[i]=' ';continue;}
+        if(p[i]===' '||Math.random()<rate){var k=Math.round(d*L)+Math.round((Math.random()-.5)*2.2);p[i]=RAMP[Math.max(1,Math.min(L,k))];}
+        ctx.fillText(p[i],a.ox+x*a.cw,a.oy+y*a.ch);}}
+    ctx.globalAlpha=1;a.drawn=true;}
+  function loop(now){requestAnimationFrame(loop);if(now-last<85)return;last=now;var t=(now-t0)/1000;
+    for(var i=0;i<arts.length;i++){var a=arts[i];if(a.visible&&(!reduce||!a.drawn))render(a,t);}}
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
